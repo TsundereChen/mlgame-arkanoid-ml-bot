@@ -48,14 +48,13 @@ def ml_loop():
 
         # 3.2. If the game is over or passed, the game process will reset
         #      the scene and wait for ml process doing resetting job.
-        if scene_info.status == GameStatus.GAME_OVER or \
-            scene_info.status == GameStatus.GAME_PASS:
-            # Do some stuff if needed
+        if scene_info.status == GameStatus.GAME_OVER:
+            scene_info = comm.get_scene_info()
             ball_served = False
-
-            # 3.2.1. Inform the game process that ml process is ready
-            comm.ml_ready()
-            continue
+            break
+        elif scene_info.status == GameStatus.GAME_PASS:
+            ball_served = False
+            scene_info = comm.get_scene_info()
 
         # 3.3. Put the code here to handle the scene information
 
